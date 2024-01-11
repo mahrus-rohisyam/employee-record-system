@@ -17,6 +17,10 @@
                     <form action="/employee/create" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
+                            <label for="Photo" class="form-label">Photo</label>
+                            <input type="file" name="photo" class="form-control">
+                        </div>
+                        <div class="mb-3">
                             <label for="formName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="form-name" name="name" aria-describedby="text">
                         </div>

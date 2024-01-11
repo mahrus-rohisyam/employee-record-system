@@ -25,7 +25,6 @@ class EmployeeController extends Controller
 
     public function addEmployee()
     {
-
         return view("addEmployee");
     }
 
@@ -36,7 +35,13 @@ class EmployeeController extends Controller
 
     public function createEmployee(Request $request)
     {
-        Employee::create($request->all());
+        $data = Employee::create($request->all());
+
+        if ($request->hasFile('photo')) {
+            $request->file('photo')->move('media/employees/', $request->file('photo')->getClientOriginalName());
+            $data->photo = $request->file('photo')->getClientOriginalName();
+            $data->save();
+        }
 
         return redirect()->route('Employee')->with('success', 'Date created successfully');
     }
