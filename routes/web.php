@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FrontendController;
@@ -26,10 +27,14 @@ Route::get('/', function () {
 
 Route::group(['prefix' => ''], function () {
     Route::get('/login', [FrontendController::class, 'loginView'])->name('login');
+    Route::get('/register', [FrontendController::class, 'registerView'])->name('Register');
 });
 
-Route::get('/register', function () {
-    return view('register');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/login', [AuthController::class, 'login'])->name('Auth Login');
+    Route::post('/register', [AuthController::class, 'register'])->name('Auth Register');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('Logout');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('Auth Forgot Password');
 });
 
 Route::group(['prefix' => 'employee'], function () {
@@ -50,4 +55,7 @@ Route::group(['prefix' => 'employee'], function () {
 
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('Dashboard');
+});
+
+Route::group(['middleware' => 'admin'], function () {
 });
